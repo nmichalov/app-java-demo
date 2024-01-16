@@ -27,7 +27,7 @@ jobs:
     - name: Run endorctl
       uses: endorlabs/github-action@b51bd06466b545f01a6ac788e3e1147695d3936c
       with:
-        namespace: "demo"
+        namespace: "nate-learn"
         api: "https://api.endorlabs.com"
         enable_github_action_token: "true"
         sarif_file: findings.sarif
