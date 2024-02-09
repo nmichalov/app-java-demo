@@ -31,6 +31,7 @@ jobs:
         api: "https://api.endorlabs.com"
         enable_github_action_token: "true"
         sarif_file: findings.sarif
+        scan_path: "test"
     - name: Upload SARIF to github
       uses: github/codeql-action/upload-sarif@9885f86fab4879632b7e44514f19148225dfbdcd
       with:
