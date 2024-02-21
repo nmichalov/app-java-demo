@@ -1,18 +1,20 @@
-name: Scan
-
+name: Endor Labs Dependency and Secrets Scan
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:
-
+  
 jobs:
   scan:
     permissions:
-      security-events: write
-      contents: read
-      id-token: write
+      security-events: write 
+      contents: read 
+      actions: read 
+      id-token: write 
+      issues: write 
+      pull-requests: write 
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
@@ -22,17 +24,40 @@ jobs:
       with:
         distribution: 'microsoft'
         java-version: '17'
-    - name: Compile Package
+    - name: Build Package
       run: mvn clean install
-    - name: Run endorctl
-      uses: endorlabs/github-action@b51bd06466b545f01a6ac788e3e1147695d3936c
+    - name: Endor Labs Scan Pull Request
+      if: github.event_name == 'pull_request'
+      uses: endorlabs/github-action@v1.1.1
       with:
-        namespace: "nate-learn"
-        api: "https://api.endorlabs.com"
-        enable_github_action_token: "true"
-        sarif_file: findings.sarif
-        scan_path: "test"
-    - name: Upload SARIF to github
-      uses: github/codeql-action/upload-sarif@9885f86fab4879632b7e44514f19148225dfbdcd
-      with:
-        sarif_file: findings.sarif
+        namespace: 'nate-learn'
+        scan_dependencies: true
+        scan_secrets: true
+        pr: true
+        # enable_pr_comments: ${{ env.ENDORCTL_PR }}
+        # github_token: ${{ secrets.GITHUB_TOKEN }} # Required for PR comments on new policy violations
+
+  # scan-main:
+  #   permissions:
+  #     id-token: write
+  #     repository-projects: read
+  #     pull-requests: read
+  #     contents: read
+  #   name: endorctl-scan
+  #   steps:
+  #   - uses: actions/checkout@v3
+
+  #   - name: 'Endor Labs Scan Push to main'
+  #     if: ${{ github.event_name == 'push' }}
+  #     uses: endorlabs/github-action@v1.1.1
+  #     with:
+  #       namespace: 'example' # Replace with your Endor Labs tenant namespace
+  #       scan_dependencies: true
+  #       scan_secrets: true
+  #       pr: false
+  #       scan_summary_output_type: 'table'
+  #       sarif_file: 'findings.sarif'
+  #   - name: Upload findings to github
+  #     uses: github/codeql-action/upload-sarif@9885f86fab4879632b7e44514f19148225dfbdcd
+  #     with:
+  #       sarif_file: 'findings.sarif'
