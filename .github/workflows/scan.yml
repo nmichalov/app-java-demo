@@ -33,7 +33,7 @@ jobs:
         namespace: 'nate-learn'
         scan_dependencies: true
         scan_secrets: true
-        pr: true
+        pr: false
         # enable_pr_comments: ${{ env.ENDORCTL_PR }}
         # github_token: ${{ secrets.GITHUB_TOKEN }} # Required for PR comments on new policy violations
 
