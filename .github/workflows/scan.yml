@@ -34,8 +34,8 @@ jobs:
         scan_dependencies: true
         scan_secrets: true
         pr: false
-        # enable_pr_comments: ${{ env.ENDORCTL_PR }}
-        # github_token: ${{ secrets.GITHUB_TOKEN }} # Required for PR comments on new policy violations
+        enable_pr_comments: ${{ env.ENDORCTL_PR }}
+        github_token: ${{ secrets.GITHUB_TOKEN }} # Required for PR comments on new policy violations
 
   # scan-main:
   #   permissions:
