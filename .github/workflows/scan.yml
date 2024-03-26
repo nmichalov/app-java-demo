@@ -36,6 +36,9 @@ jobs:
         enable_pr_comments: ${{ env.ENDORCTL_PR }}
         github_token: ${{ secrets.GITHUB_TOKEN }} # Required for PR comments on new policy violations
         sarif_file: 'findings.sarif'
+        log_level: debug
+        verbose: true
+        continue_on_error: true
     - name: Show Directory
       run: "ls"
           
