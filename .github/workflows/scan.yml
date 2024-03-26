@@ -26,8 +26,7 @@ jobs:
         java-version: '17'
     - name: Build Package
       run: mvn clean install
-    - name: Endor Labs Scan Pull Request
-      if: github.event_name == 'pull_request'
+    - name: Endor Labs Scan
       uses: endorlabs/github-action@v1.1.1
       with:
         namespace: 'nate-learn'
@@ -36,7 +35,10 @@ jobs:
         pr: false
         enable_pr_comments: ${{ env.ENDORCTL_PR }}
         github_token: ${{ secrets.GITHUB_TOKEN }} # Required for PR comments on new policy violations
-
+        sarif_file: 'findings.sarif'
+    - name: Show Directory
+      run: "ls"
+          
   # scan-main:
   #   permissions:
   #     id-token: write
