@@ -9,7 +9,7 @@ on:
 jobs:
   scan:
     permissions:
-      id-token: write
+      # id-token: write
       repository-projects: read
       pull-requests: read
       contents: read
