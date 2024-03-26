@@ -9,12 +9,10 @@ on:
 jobs:
   scan:
     permissions:
-      security-events: write 
-      contents: read 
-      actions: read 
-      id-token: write 
-      issues: write 
-      pull-requests: write 
+      id-token: write
+      repository-projects: read
+      pull-requests: read
+      contents: read
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
@@ -32,9 +30,9 @@ jobs:
         namespace: 'nate-learn'
         scan_dependencies: true
         scan_secrets: true
-        pr: true
-        enable_pr_comments: ${{ env.ENDORCTL_PR }}
-        github_token: ${{ secrets.GITHUB_TOKEN }} # Required for PR comments on new policy violations
+        # pr: true
+        # enable_pr_comments: ${{ env.ENDORCTL_PR }}
+        # github_token: ${{ secrets.GITHUB_TOKEN }} # Required for PR comments on new policy violations
         sarif_file: 'findings.sarif'
         log_level: debug
         log_verbose: true
