@@ -78,7 +78,7 @@
 	     <dependency>
 	        <groupId>org.jboss.arquillian.config</groupId>
 	        <artifactId>arquillian-config-spi</artifactId>
-	        <version>1.7.0.Alpha12</version>
+	        <version>1.8.0.Final</version>
 	      </dependency>
 	       <dependency>
 	        <groupId>org.jboss.arquillian.container</groupId>
