@@ -83,7 +83,7 @@
 	       <dependency>
 	        <groupId>org.jboss.arquillian.container</groupId>
 	        <artifactId>arquillian-container-impl-base</artifactId>
-	        <version>1.7.0.Alpha12</version>
+	        <version>1.8.0.Final</version>
 	      </dependency>
 	       <dependency>
 	        <groupId>org.jboss.shrinkwrap.descriptors</groupId>
