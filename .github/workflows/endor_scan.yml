@@ -1,0 +1,49 @@
+name: Endor Labs Dependency and Secrets Scan
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  scan:
+    permissions:
+      security-events: write 
+      contents: read 
+      id-token: write 
+      issues: write # Required to automatically comment on PRs for new policy violations
+      pull-requests: write # Required to automatically comment on PRs for new policy violations
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'microsoft'
+        java-version: '17'
+    - name: Build Package
+      run: mvn clean install
+    - name: Endor Labs Scan Pull Request
+      if: github.event_name == 'pull_request'
+      uses: endorlabs/github-action@v1.1.2
+      with:
+        namespace: 'nate-learn'
+        scan_dependencies: true
+        scan_secrets: true
+        pr: true
+        enable_pr_comments: ${{ env.ENDORCTL_PR }}
+        github_token: ${{ secrets.GITHUB_TOKEN }} # Required for PR comments on new policy violations
+    - name: Endor Labs Scan Main
+      if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch'}}
+      uses: endorlabs/github-action@v1.1.2
+      with:
+        namespace: 'nate-learn' 
+        scan_dependencies: true
+        scan_secrets: true
+        pr: false
+        scan_summary_output_type: 'table'
+        sarif_file: 'findings.sarif'
+    # - name: Upload findings to github
+    #   uses: github/codeql-action/upload-sarif@v3
+    #   with:
+    #     sarif_file: 'findings.sarif'
