@@ -1,7 +1,7 @@
 name: Endor Labs Dependency and Secrets Scan Monitoring
 on:
   push:
-    branches: [ main ]
+    branches: [ new_main ]
   workflow_dispatch:
 jobs:
   scan:
