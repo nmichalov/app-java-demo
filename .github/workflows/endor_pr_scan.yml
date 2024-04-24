@@ -1,7 +1,8 @@
 name: Endor Labs Dependency and Secrets Scan Monitoring
 on:
   pull_request:
-    branches: [ main, new_main ]
+    branches: [ new_main]
+  workflow_dispatch:
 jobs:
   scan:
     permissions:
@@ -10,6 +11,7 @@ jobs:
       id-token: write 
       issues: write # Required to automatically comment on PRs for new policy violations
       pull-requests: write # Required to automatically comment on PRs for new policy violations
+      actions: read
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
@@ -28,5 +30,5 @@ jobs:
         scan_dependencies: true
         scan_secrets: true
         pr: true
-        enable_pr_comments: ${{ env.ENDORCTL_PR }}
+        enable_pr_comments: true
         github_token: ${{ secrets.GITHUB_TOKEN }} # Required for PR comments on new policy violations

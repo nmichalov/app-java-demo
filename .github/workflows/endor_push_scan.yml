@@ -1,14 +1,16 @@
 name: Endor Labs Dependency and Secrets Scan Monitoring
 on:
   push:
-    branches: [ main ]
+    branches: [ new_main ]
   workflow_dispatch:
 jobs:
   scan:
     permissions:
       security-events: write 
       contents: read 
+      actions: read
       id-token: write 
+      issues: write
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
