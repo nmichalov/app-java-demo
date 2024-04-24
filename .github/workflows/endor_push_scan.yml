@@ -1,0 +1,35 @@
+name: Endor Labs Dependency and Secrets Scan Monitoring
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  scan:
+    permissions:
+      security-events: write 
+      contents: read 
+      id-token: write 
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'microsoft'
+        java-version: '17'
+    - name: Build Package
+      run: mvn clean install
+    - name: Endor Labs Scan Main
+      uses: endorlabs/github-action@v1.1.2
+      with:
+        namespace: 'nate-learn' 
+        scan_dependencies: true
+        scan_secrets: true
+        pr: false
+        scan_summary_output_type: 'table'
+        sarif_file: 'findings.sarif'
+    - name: Upload findings to github
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: 'findings.sarif'

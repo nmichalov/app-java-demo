@@ -1,9 +1,7 @@
-name: Endor Labs Dependency and Secrets Scan
+name: Endor Labs Dependency and Secrets Scan Monitoring
 on:
-  push:
-    branches: [ main ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, new_main ]
 jobs:
   scan:
     permissions:
@@ -24,7 +22,6 @@ jobs:
     - name: Build Package
       run: mvn clean install
     - name: Endor Labs Scan Pull Request
-      if: github.event_name == 'pull_request'
       uses: endorlabs/github-action@v1.1.2
       with:
         namespace: 'nate-learn'
@@ -33,17 +30,3 @@ jobs:
         pr: true
         enable_pr_comments: ${{ env.ENDORCTL_PR }}
         github_token: ${{ secrets.GITHUB_TOKEN }} # Required for PR comments on new policy violations
-    - name: Endor Labs Scan Main
-      if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch'}}
-      uses: endorlabs/github-action@v1.1.2
-      with:
-        namespace: 'nate-learn' 
-        scan_dependencies: true
-        scan_secrets: true
-        pr: false
-        scan_summary_output_type: 'table'
-        sarif_file: 'findings.sarif'
-    # - name: Upload findings to github
-    #   uses: github/codeql-action/upload-sarif@v3
-    #   with:
-    #     sarif_file: 'findings.sarif'
