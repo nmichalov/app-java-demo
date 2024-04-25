@@ -31,7 +31,7 @@ jobs:
         pr: false
         scan_summary_output_type: 'table'
         sarif_file: 'findings.sarif'
-        additional_args: '--summary'
+        additional_args: '-o summary'
     - name: Upload findings to github
       uses: github/codeql-action/upload-sarif@v3
       with:
