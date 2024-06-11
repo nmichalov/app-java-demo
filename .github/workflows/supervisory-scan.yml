@@ -6,33 +6,33 @@ on:
   #   - cron: 1 */2 * * *
     
 jobs:
-  generate_matrix:
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            repos.csv
-          sparse-checkout-cone-mode: false
+  # generate_matrix:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     matrix: ${{ steps.set-matrix.outputs.matrix }}
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #       with:
+  #         sparse-checkout: |
+  #           repos.csv
+  #         sparse-checkout-cone-mode: false
       
-      - name: Read repos and namespaces from CSV
-        id: set-matrix
-        run: |
-          OUTPUT="$(awk -F',' '{print "{\"repo\":\"" $1 "\", \"namespace\":\"" $2 "\"}"}' repos.csv | jq -s '.' | tr '\n' ' ')"
-          echo "matrix=$OUTPUT" >> $GITHUB_OUTPUT
+  #     - name: Read repos and namespaces from CSV
+  #       id: set-matrix
+  #       run: |
+  #         OUTPUT="$(awk -F',' '{print "{\"repo\":\"" $1 "\", \"namespace\":\"" $2 "\"}"}' repos.csv | jq -s '.' | tr '\n' ' ')"
+  #         echo "matrix=$OUTPUT" >> $GITHUB_OUTPUT
   
   scan-matrix:
-    needs: generate_matrix
-    strategy:
-      # fail-fast should be set false so that one scan failure doesn't stop the whole matrix
-      fail-fast: false
-      max-parallel: 5
-      matrix: 
-        projects: ${{ fromJSON(needs.generate_matrix.outputs.matrix) }}
-    uses: nmichalov/endor-labs-supervisory-scan/.github/workflows/scan-with-endorlabs.yml@main
+    # needs: generate_matrix
+    # strategy:
+    #   # fail-fast should be set false so that one scan failure doesn't stop the whole matrix
+    #   fail-fast: false
+    #   max-parallel: 5
+    #   matrix: 
+    #     projects: ${{ fromJSON(needs.generate_matrix.outputs.matrix) }}
+    uses: nmichalov/app-java-demo/.github/workflows/scan-with-endorlabs.yml@main
     permissions:
       id-token: write        # allows authentication to Endor Labs using Actions OIDC JWT Token
       pull-requests: write   # allows scanner to leave a pull request comment, if enabled
@@ -40,5 +40,5 @@ jobs:
       contents: read         # allows this job to clone org repos
       security-events: write
     with:
-      git-url: ${{ matrix.projects.repo }}
-      namespace: ${{ matrix.projects.namespace }}
+      # git-url: ${{ matrix.projects.repo }}
+      namespace: nate-learn.testb #${{ matrix.projects.namespace }}
