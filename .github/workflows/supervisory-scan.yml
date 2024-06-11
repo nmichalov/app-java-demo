@@ -40,5 +40,5 @@ jobs:
       contents: read         # allows this job to clone org repos
       security-events: write
     with:
-      # git-url: ${{ matrix.projects.repo }}
+      git-url: "https://github.com/nmichalov/app-java-demo.git"
       namespace: nate-learn.testb #${{ matrix.projects.namespace }}
