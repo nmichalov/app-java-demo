@@ -32,7 +32,7 @@ jobs:
     #   max-parallel: 5
     #   matrix: 
     #     projects: ${{ fromJSON(needs.generate_matrix.outputs.matrix) }}
-    uses: nmichalov/app-java-demo/.github/workflows/scan-with-endorlabs.yml@main
+    uses: nmichalov/app-java-demo/.github/workflows/scan-with-endorlabs.yml@new_main
     permissions:
       id-token: write        # allows authentication to Endor Labs using Actions OIDC JWT Token
       pull-requests: write   # allows scanner to leave a pull request comment, if enabled
