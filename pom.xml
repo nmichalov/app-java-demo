@@ -57,7 +57,7 @@
         <dependency>
             <groupId>org.jboss.weld</groupId>
             <artifactId>weld-core</artifactId>
-            <version>1.1.33.Final</version>
+            <version>2.4.5.Final</version>
             <exclusions>
                 <exclusion>
                     <groupId>javax.enterprise</groupId>
